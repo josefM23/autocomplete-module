@@ -1,6 +1,6 @@
 /**
  * The HomeView component as a web component.
- * Displays the home page content using a class-based approach.
+ * Displays the home page content.
  *
  * @author Josef Matyasek <jm224ae@student.lnu.se>
  * @version 1.0.0
@@ -12,13 +12,23 @@ template.innerHTML = `
   <style>
     .home {
       font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       text-align: center;
-      margin-top: 50px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
     }
   </style>
+
   <div class="home">
     <h1>Welcome to the Home Page</h1>
-    <p>Enjoy exploring the app!</p>
+    <slot name="autocomplete"></slot>
   </div>
 `
 
