@@ -1,20 +1,33 @@
 /**
- * The main script file of the application.
+ * Initializes the HomeView and AutocompleteModule components.
+ * This script dynamically loads the HomeView and AutocompleteModule into the DOM and sets up the autocomplete functionality.
  *
- * @author Josef Matyasek
+ * @author Josef Matyasek <jm224ae@student.lnu.se>
  * @version 1.0.0
  */
 
+// Import the components and views.
 import './components/index.js'
 
+// Import AutocompleteModule explicitly.
+import { AutocompleteModule } from './components/modules/autocomplete.js'
+
+// Initialize the HomeView and AutocompleteModule when DOM is ready.
 document.addEventListener('DOMContentLoaded', () => {
+  // Create the HomeView and append it to the DOM.
   const homeView = document.createElement('home-view')
-
-  const autocomplete = document.createElement('autocomplete-module')
-  autocomplete.slot = 'autocomplete' // Fix layout.
-
-  homeView.appendChild(autocomplete)
   document.body.appendChild(homeView)
 
-  autocomplete.setData(['Apple', 'Banana', 'Orange', 'Mango', 'Pineapple'])
+  // Wait until homeView is connected and shadowRoot is available.
+  setTimeout(() => {
+    const inputElement = homeView.shadowRoot.querySelector('#search')
+    const suggestionsElement = homeView.shadowRoot.querySelector('#suggestions')
+
+    // Ensure that the input and suggestions elements are present before creating AutocompleteModule.
+    if (inputElement && suggestionsElement) {
+      // Create AutocompleteModule and set up the suggestions data.
+      const autocomplete = new AutocompleteModule(inputElement, suggestionsElement)
+      autocomplete.setData(['Apple', 'Banana', 'Orange', 'Mango', 'Pineapple'])
+    }
+  }, 0) // Wait one cycle to ensure the shadow DOM is ready. Just temporary.
 })

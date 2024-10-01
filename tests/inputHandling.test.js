@@ -1,6 +1,6 @@
 /**
- * Tests the input handling logic of the AutocompleteModule.
- * This file focuses on how the component handles user input.
+ * Input Handling Test for the AutocompleteModule.
+ * Ensures that no suggestions are shown if input is less than 3 characters or invalid.
  *
  * @author Josef Matyasek <jm224ae@student.lnu.se>
  * @version 1.0.0
@@ -8,36 +8,28 @@
 
 import { AutocompleteModule } from '../src/js/components/modules/autocomplete.js'
 
-/**
- * Tests that suggestions are cleared if input length is less than 3 characters.
- * Ensures that no suggestions are displayed for invalid input.
- */
-test('should clear suggestions if input is less than 3 characters', () => {
-  const autocomplete = new AutocompleteModule()
+test('should not search for input less than 3 characters or invalid symbols', () => {
+  // Create mock input and suggestions elements for the test.
+  const inputElement = document.createElement('input')
+  const suggestionsElement = document.createElement('ul')
+
+  // Initialize the AutocompleteModule with the mock elements.
+  const autocomplete = new AutocompleteModule(inputElement, suggestionsElement)
+
+  // Set the data for autocomplete suggestions.
   autocomplete.setData(['Apple', 'Banana', 'Orange'])
 
-  // Set up the data for the autocomplete.
-  autocomplete.inputElement.value = 'Ap'
+  // Test with input less than 3 characters.
+  inputElement.value = 'Ap'
   autocomplete.onInput()
 
-  // Expect the suggestions list to be empty.
-  expect(autocomplete.suggestionsElement.innerHTML).toBe('') // Inga förslag visas
-})
+  // Verify that no suggestions are shown for short input.
+  expect(suggestionsElement.children.length).toBe(0)
 
-/**
- * Tests that suggestions are displayed when valid input is provided.
- * Ensures that at least one suggestion is shown when the input matches the data.
- */
-test('should show suggestions when input is valid', () => {
-  const autocomplete = new AutocompleteModule()
-
-  // Set up the data for the autocomplete.
-  autocomplete.setData(['Apple', 'Banana', 'Orange'])
-
-  // Input a valid string with 3 characters.
-  autocomplete.inputElement.value = 'App'
+  // Test with invalid input (symbols).
+  inputElement.value = '@#%'
   autocomplete.onInput()
 
-  // Expect one suggestion to be displayed.
-  expect(autocomplete.suggestionsElement.childElementCount).toBe(1)
+  // Verify that no suggestions are shown for invalid input.
+  expect(suggestionsElement.children.length).toBe(0)
 })

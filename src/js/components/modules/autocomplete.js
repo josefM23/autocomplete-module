@@ -1,72 +1,28 @@
 /**
- * The Autocomplete component.
- * Handles search input and suggestions functionality with additional validation and logic.
+ * The Autocomplete component logic.
+ * Handles input, filtering, and suggestions.
  *
  * @author Josef Matyasek <jm224ae@student.lnu.se>
  * @version 1.0.0
  */
 
-// Define template for the Autocomplete component.
-const template = document.createElement('template')
-template.innerHTML = `
-  <style>
-    .autocomplete {
-      width: 300px;
-      margin: 20px auto;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      background-color: white;
-      border: 1px solid #ccc;
-      max-height: 150px;
-      overflow-y: auto;
-    }
-
-    li {
-      padding: 10px;
-      cursor: pointer;
-      color: black;
-    }
-
-    li:hover {
-      background-color: #f0f0f0;
-    }
-  </style>
-
-  <div class="autocomplete">
-    <input type="text" id="search" placeholder="Start typing...">
-    <ul id="suggestions"></ul>
-  </div>
-`
-
 /**
- * Creates an AutocompleteModule.
+ * Represents the core logic of the AutocompleteModule.
+ * Handles user input, filtering suggestions, and displaying the matching results.
+ *
+ * @class AutocompleteModule
  */
-export class AutocompleteModule extends HTMLElement {
+export class AutocompleteModule {
   /**
    * Creates an instance of AutocompleteModule.
+   *
+   * @param {HTMLElement} inputElement - The input element where the user types search queries.
+   * @param {HTMLElement} suggestionsElement - The element where the autocomplete suggestions will be displayed.
    */
-  constructor () {
-    super()
-    // Attach the shadow DOM and append the template.
-    this.attachShadow({ mode: 'open' }).append(template.content.cloneNode(true))
-
-    // Initialize data array for suggestions.
+  constructor (inputElement, suggestionsElement) {
+    this.inputElement = inputElement
+    this.suggestionsElement = suggestionsElement
     this.data = []
-
-    // DOM elements
-    this.inputElement = this.shadowRoot.querySelector('#search')
-    this.suggestionsElement = this.shadowRoot.querySelector('#suggestions')
 
     // Attach event listener to the input field.
     this.inputElement.addEventListener('input', () => this.onInput())
@@ -78,7 +34,7 @@ export class AutocompleteModule extends HTMLElement {
    * @param {Array} newData - The data array to use for suggestions.
    */
   setData (newData) {
-    // Filter out any duplicates from the input data
+    // Filter out any duplicates from the input data.
     const uniqueData = []
     for (const item of newData) {
       if (!uniqueData.includes(item.toLowerCase())) {
@@ -89,7 +45,7 @@ export class AutocompleteModule extends HTMLElement {
   }
 
   /**
-   * Event handler for when user types in the search field.
+   * Event handler for when the user types in the search field.
    * Starts searching when the input length is greater than or equal to 3.
    */
   onInput () {
@@ -117,8 +73,17 @@ export class AutocompleteModule extends HTMLElement {
         suggestions.push(item)
       }
     }
+    // Version witch searches for suggestions that start with the input query.
+    // search (query) {
+    //  const suggestions = []
+    //  for (const item of this.data) {
+    //    // Use a case-insensitive search to match only if the item starts with the query.
+    //    if (item.startsWith(query.toLowerCase())) {
+    //      suggestions.push(item)
+    //    }
+    //  }
 
-    // Sort suggestions alphabetically
+    // Sort suggestions alphabetically.
     suggestions.sort((a, b) => a.localeCompare(b))
 
     this.showSuggestions(suggestions)
@@ -158,14 +123,4 @@ export class AutocompleteModule extends HTMLElement {
   clearSuggestions () {
     this.suggestionsElement.innerHTML = ''
   }
-
-  /**
-   * Called when the element is inserted into the DOM.
-   */
-  connectedCallback () {
-    console.log('Autocomplete component connected to the DOM')
-  }
 }
-
-// Define the 'autocomplete-module' custom element.
-customElements.define('autocomplete-module', AutocompleteModule)

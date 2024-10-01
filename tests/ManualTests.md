@@ -38,10 +38,11 @@
 3. Enter the text "App".
 
 **Expected Result:**
-Suggestions matching the input "App" (e.g., "Apple") should be displayed.
+Suggestions matching the input "App" (e.g., "Apple", "Pineapple") should be displayed.
 
 **Actual Result:** 
-Suggestions "Apple" were displayed.
+Suggestions "Apple" and 
+"Pineapple" were displayed.
 
 **Status:** Pass
 
