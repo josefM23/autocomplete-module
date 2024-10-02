@@ -8,7 +8,7 @@
 
 import { AutocompleteModule } from '../src/js/components/modules/autocomplete.js'
 
-test('should not search for input less than 3 characters or invalid symbols', () => {
+test('should not search for input less than 3 characters or invalid input', () => {
   // Create mock input and suggestions elements for the test.
   const inputElement = document.createElement('input')
   const suggestionsElement = document.createElement('ul')
@@ -21,14 +21,14 @@ test('should not search for input less than 3 characters or invalid symbols', ()
 
   // Test with input less than 3 characters.
   inputElement.value = 'Ap'
-  autocomplete.onInput()
+  autocomplete.handleInput()
 
   // Verify that no suggestions are shown for short input.
   expect(suggestionsElement.children.length).toBe(0)
 
   // Test with invalid input (symbols).
   inputElement.value = '@#%'
-  autocomplete.onInput()
+  autocomplete.handleInput()
 
   // Verify that no suggestions are shown for invalid input.
   expect(suggestionsElement.children.length).toBe(0)

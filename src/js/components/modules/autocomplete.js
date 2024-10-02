@@ -20,12 +20,16 @@ export class AutocompleteModule {
    * @param {HTMLElement} suggestionsElement - The element where the autocomplete suggestions will be displayed.
    */
   constructor (inputElement, suggestionsElement) {
+    if (!inputElement || !suggestionsElement) { // New validation statement
+      throw new Error('Both input and suggestions elements must be provided.')
+    }
+
     this.inputElement = inputElement
     this.suggestionsElement = suggestionsElement
     this.data = []
 
     // Attach event listener to the input field.
-    this.inputElement.addEventListener('input', () => this.onInput())
+    this.inputElement.addEventListener('input', () => this.handleInput())
   }
 
   /**
@@ -34,93 +38,136 @@ export class AutocompleteModule {
    * @param {Array} newData - The data array to use for suggestions.
    */
   setData (newData) {
-    // Filter out any duplicates from the input data.
+    if (!Array.isArray(newData)) { // Additional check to ensure the input is an array
+      throw new TypeError('Data must be an array')
+    }
+
+    this.data = this.filterUniqueData(newData)
+  }
+
+  /**
+   * Filters out duplicate data and ensures case-insensitivity.
+   *
+   * @param {Array} data - The data array to filter.
+   * @returns {Array} - The unique, case-insensitive data array.
+   */
+  filterUniqueData (data) {
     const uniqueData = []
-    for (const item of newData) {
-      if (!uniqueData.includes(item.toLowerCase())) {
-        uniqueData.push(item.toLowerCase())
+    for (const item of data) {
+      const lowerCaseItem = item.toLowerCase()
+      if (!uniqueData.includes(lowerCaseItem)) {
+        uniqueData.push(lowerCaseItem)
       }
     }
-    this.data = uniqueData
+    return uniqueData
   }
 
   /**
    * Event handler for when the user types in the search field.
    * Starts searching when the input length is greater than or equal to 3.
    */
-  onInput () {
+  handleInput () {
     const query = this.inputElement.value.trim()
 
-    // If input is invalid (e.g. empty, too short, contains only symbols), clear suggestions.
-    if (query.length < 3 || !/^[a-zA-Z]+$/.test(query)) {
+    // Kolla att query är minst 3 tecken och innehåller bara bokstäver.
+    if (query.length >= 3 && /^[a-zA-Z]+$/.test(query)) {
+      this.performSearch(query)
+    } else {
       this.clearSuggestions()
-      return
     }
-
-    this.search(query)
   }
 
   /**
-   * Searches the data for matching suggestions based on the input value.
+   * Performs the search for matching suggestions based on the input query.
    *
    * @param {string} query - The current input value to search for.
    */
-  search (query) {
-    const suggestions = []
-    for (const item of this.data) {
-      // Use a case-insensitive search to match the query.
-      if (item.toLowerCase().includes(query.toLowerCase())) {
-        suggestions.push(item)
-      }
-    }
-    // Version witch searches for suggestions that start with the input query.
-    // search (query) {
-    //  const suggestions = []
-    //  for (const item of this.data) {
-    //    // Use a case-insensitive search to match only if the item starts with the query.
-    //    if (item.startsWith(query.toLowerCase())) {
-    //      suggestions.push(item)
-    //    }
-    //  }
-
-    // Sort suggestions alphabetically.
-    suggestions.sort((a, b) => a.localeCompare(b))
-
-    this.showSuggestions(suggestions)
+  performSearch (query) {
+    const filteredSuggestions = this.filterSuggestions(query)
+    this.showSuggestions(filteredSuggestions)
   }
 
   /**
-   * Displays the matched suggestions.
+   * Filters the data to match the query, returning matching suggestions.
+   *
+   * @param {string} query - The input value to filter suggestions by.
+   * @returns {Array} - The list of matching suggestions.
+   */
+  filterSuggestions (query) {
+    // const suggestions = this.data.filter(item => item.startsWith(query.toLowerCase()))
+
+    // Version that allows searching for any matching part of the string
+    const suggestions = this.data.filter(item => item.toLowerCase().includes(query.toLowerCase()))
+
+    suggestions.sort((a, b) => a.localeCompare(b))
+    return suggestions
+  }
+
+  /**
+   * Displays the matched suggestions in the suggestionsElement.
    *
    * @param {Array} suggestions - The list of matched suggestions.
    */
   showSuggestions (suggestions) {
     this.clearSuggestions()
 
-    // If there are no suggestions, display a "no matches" message.
     if (suggestions.length === 0) {
-      const li = document.createElement('li')
-      li.textContent = 'No matches found'
-      this.suggestionsElement.appendChild(li)
+      this.displayNoMatches()
       return
     }
 
-    // Loop over suggestions and display them in the list.
+    this.renderSuggestions(suggestions)
+  }
+
+  /**
+   * Renders the suggestions in the DOM.
+   *
+   * @param {Array} suggestions - The list of matched suggestions to render.
+   */
+  renderSuggestions (suggestions) {
     for (const suggestion of suggestions) {
       const li = document.createElement('li')
       li.textContent = suggestion
-      li.addEventListener('click', () => {
-        this.inputElement.value = suggestion
-        this.clearSuggestions()
-      })
+
+      if (suggestion.length === 0) { // Handle empty string as a suggestion
+        console.warn('Empty suggestion found') // New warning statement
+      }
+
+      li.addEventListener('click', () => this.handleSuggestionClick(suggestion))
       this.suggestionsElement.appendChild(li)
     }
   }
 
   /**
-   * Clears the current suggestions list.
+   * Handles the event when a suggestion is clicked.
+   *
+   * @param {string} suggestion - The selected suggestion.
+   */
+  handleSuggestionClick (suggestion) {
+    if (!suggestion) { // Check for empty or null suggestion
+      console.error('Invalid suggestion clicked') // New error log
+      return
+    }
+
+    this.inputElement.value = suggestion
+    this.clearSuggestions()
+  }
+
+  /**
+   * Displays a message when no matches are found.
+   */
+  displayNoMatches () {
+    const li = document.createElement('li')
+    li.textContent = 'No matches found'
+    this.suggestionsElement.appendChild(li)
+  }
+
+  /**
+   * Clears the current suggestions list from the DOM.
    */
   clearSuggestions () {
-    this.suggestionsElement.innerHTML = ''
+    if (this.suggestionsElement.children.length > 0) { // Check before clearing
+      this.suggestionsElement.innerHTML = ''
+    }
   }
 }
