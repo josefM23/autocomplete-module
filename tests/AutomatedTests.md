@@ -18,17 +18,17 @@ To ensure that the `setData()` function correctly processes the input data and r
 - ✅ Passed
 ---
 
-## 2. Test: Input Handling and Search Trigger
+## 2. Test: Input Handling and Validation
 **Purpose:**  
-To check that user input triggers the correct behavior for the autocomplete component.
+To check that user input is properly handled and the search is triggered only for valid input.
 
 **What is Tested:**  
-- Input values should trigger the filtering of suggestions when the input length is greater than or equal to 3 characters.
-- The search functionality should filter and display matching suggestions based on the input.
+- Input should trigger the filtering of suggestions when it is greater than or equal to 3 characters.
+- Input should be valid, containing only letters, and the search functionality should filter and display matching suggestions based on this valid input.
 
 **Expected Result:**  
-- When typing at least 3 characters, suggestions that match the input are displayed.
-- If no matches are found, a message saying "No matches found" should appear.
+- When typing at least 3 valid characters, suggestions that match the input are displayed.
+- If no valid matches are found, a message saying "No matches found" should appear.
 
 **Test Result:**  
 - ✅ Passed
@@ -39,7 +39,7 @@ To check that user input triggers the correct behavior for the autocomplete comp
 To verify that the suggestions list is properly rendered with matching suggestions.
 
 **What is Tested:**  
-- The suggestions list (`ul`) should display when valid matches are found during search.
+- The suggestions list (`ul`) should display when valid matches are found during the search.
 - When a user clicks on a suggestion, it should populate the input field.
 
 **Expected Result:**  
@@ -65,4 +65,4 @@ To verify that the suggestions list is cleared properly when the input is empty 
 ---
 
 ## Summary
-These automated tests ensure that the key functionalities of the **AutocompleteModule** — including data handling, input handling, suggestions rendering, and UI updates — work as expected. Each test verifies specific aspects of the module’s behavior, ensuring both correctness and reliability. All tests have successfully passed.
+These automated tests ensure that the key functionalities of the **AutocompleteModule** — including data handling, input handling, suggestions rendering, and UI updates — work as expected. Each test verifies specific aspects of the module’s behavior, ensuring both correctness and reliability. **All tests have successfully passed.**

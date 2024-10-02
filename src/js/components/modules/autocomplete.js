@@ -20,7 +20,7 @@ export class AutocompleteModule {
    * @param {HTMLElement} suggestionsElement - The element where the autocomplete suggestions will be displayed.
    */
   constructor (inputElement, suggestionsElement) {
-    if (!inputElement || !suggestionsElement) { // New validation statement
+    if (!inputElement || !suggestionsElement) {
       throw new Error('Both input and suggestions elements must be provided.')
     }
 
@@ -28,8 +28,8 @@ export class AutocompleteModule {
     this.suggestionsElement = suggestionsElement
     this.data = []
 
-    // Attach event listener to the input field.
-    this.inputElement.addEventListener('input', () => this.handleInput())
+    // Attach event listener to the input field
+    this.inputElement.addEventListener('input', () => this.onUserInput())
   }
 
   /**
@@ -38,11 +38,11 @@ export class AutocompleteModule {
    * @param {Array} newData - The data array to use for suggestions.
    */
   setData (newData) {
-    if (!Array.isArray(newData)) { // Additional check to ensure the input is an array
+    if (!Array.isArray(newData)) {
       throw new TypeError('Data must be an array')
     }
 
-    this.data = this.filterUniqueData(newData)
+    this.data = this.getUniqueLowercaseData(newData)
   }
 
   /**
@@ -51,7 +51,7 @@ export class AutocompleteModule {
    * @param {Array} data - The data array to filter.
    * @returns {Array} - The unique, case-insensitive data array.
    */
-  filterUniqueData (data) {
+  getUniqueLowercaseData (data) {
     const uniqueData = []
     for (const item of data) {
       const lowerCaseItem = item.toLowerCase()
@@ -66,15 +66,25 @@ export class AutocompleteModule {
    * Event handler for when the user types in the search field.
    * Starts searching when the input length is greater than or equal to 3.
    */
-  handleInput () {
+  onUserInput () {
     const query = this.inputElement.value.trim()
 
-    // Kolla att query är minst 3 tecken och innehåller bara bokstäver.
-    if (query.length >= 3 && /^[a-zA-Z]+$/.test(query)) {
-      this.performSearch(query)
+    if (this.isValidInput(query)) {
+      this.searchSuggestions(query)
     } else {
       this.clearSuggestions()
     }
+  }
+
+  /**
+   * Validates if the input query meets the required length.
+   *
+   * @param {string} query - The input value to validate.
+   * @returns {boolean} - True if valid, false otherwise.
+   */
+  isValidInput (query) {
+    // Check if input has at least 3 characters and contains only letters
+    return query.length >= 3 && /^[a-zA-Z]+$/.test(query)
   }
 
   /**
@@ -82,9 +92,9 @@ export class AutocompleteModule {
    *
    * @param {string} query - The current input value to search for.
    */
-  performSearch (query) {
+  searchSuggestions (query) {
     const filteredSuggestions = this.filterSuggestions(query)
-    this.showSuggestions(filteredSuggestions)
+    this.displayFilteredSuggestions(filteredSuggestions)
   }
 
   /**
@@ -104,11 +114,20 @@ export class AutocompleteModule {
   }
 
   /**
+   * Displays the filtered suggestions.
+   *
+   * @param {Array} suggestions - The filtered list of suggestions.
+   */
+  displayFilteredSuggestions (suggestions) {
+    this.displaySuggestions(suggestions)
+  }
+
+  /**
    * Displays the matched suggestions in the suggestionsElement.
    *
    * @param {Array} suggestions - The list of matched suggestions.
    */
-  showSuggestions (suggestions) {
+  displaySuggestions (suggestions) {
     this.clearSuggestions()
 
     if (suggestions.length === 0) {
@@ -126,16 +145,27 @@ export class AutocompleteModule {
    */
   renderSuggestions (suggestions) {
     for (const suggestion of suggestions) {
-      const li = document.createElement('li')
-      li.textContent = suggestion
-
-      if (suggestion.length === 0) { // Handle empty string as a suggestion
-        console.warn('Empty suggestion found') // New warning statement
-      }
-
-      li.addEventListener('click', () => this.handleSuggestionClick(suggestion))
+      const li = this.createSuggestionElement(suggestion)
       this.suggestionsElement.appendChild(li)
     }
+  }
+
+  /**
+   * Creates a suggestion list item element.
+   *
+   * @param {string} suggestion - The suggestion to create an element for.
+   * @returns {HTMLElement} - The created list item element.
+   */
+  createSuggestionElement (suggestion) {
+    const li = document.createElement('li')
+    li.textContent = suggestion
+
+    if (suggestion.length === 0) {
+      console.warn('Empty suggestion found') // New warning statement
+    }
+
+    li.addEventListener('click', () => this.handleSuggestionClick(suggestion))
+    return li
   }
 
   /**
@@ -144,7 +174,7 @@ export class AutocompleteModule {
    * @param {string} suggestion - The selected suggestion.
    */
   handleSuggestionClick (suggestion) {
-    if (!suggestion) { // Check for empty or null suggestion
+    if (!suggestion) {
       console.error('Invalid suggestion clicked') // New error log
       return
     }
@@ -166,7 +196,7 @@ export class AutocompleteModule {
    * Clears the current suggestions list from the DOM.
    */
   clearSuggestions () {
-    if (this.suggestionsElement.children.length > 0) { // Check before clearing
+    if (this.suggestionsElement.children.length > 0) {
       this.suggestionsElement.innerHTML = ''
     }
   }

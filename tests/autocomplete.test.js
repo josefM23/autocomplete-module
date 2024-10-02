@@ -31,7 +31,7 @@ test('should set unique data in autocomplete', () => {
 })
 
 /**
- * Tests the handleInput method of the AutocompleteModule.
+ * Tests the onUserInput method of the AutocompleteModule.
  * Ensures that the search is triggered when the input value has at least 3 characters.
  */
 test('should trigger search when input has 3 or more characters', () => {
@@ -45,9 +45,9 @@ test('should trigger search when input has 3 or more characters', () => {
   // Set some test data.
   autocomplete.setData(['Apple', 'Banana', 'Orange'])
 
-  // Simulate user input with more than 3 characters.
+  // Simulate user input with 3 characters.
   inputElement.value = 'App'
-  autocomplete.handleInput()
+  autocomplete.onUserInput()
 
   // Check that suggestions were generated.
   expect(suggestionsElement.children.length).toBeGreaterThan(0)
@@ -55,9 +55,9 @@ test('should trigger search when input has 3 or more characters', () => {
 
 /**
  * Tests the clearSuggestions method of the AutocompleteModule.
- * Ensures that suggestions are cleared when the input is invalid or too short.
+ * Ensures that suggestions are cleared when the input is invalid.
  */
-test('should clear suggestions when input is too short', () => {
+test('should clear suggestions when input is invalid', () => {
   // Create mock HTML elements for input and suggestions.
   const inputElement = document.createElement('input')
   const suggestionsElement = document.createElement('ul')
@@ -70,7 +70,7 @@ test('should clear suggestions when input is too short', () => {
 
   // Simulate user input with less than 3 characters.
   inputElement.value = 'Ap'
-  autocomplete.handleInput()
+  autocomplete.onUserInput()
 
   // Check that suggestions were cleared.
   expect(suggestionsElement.children.length).toBe(0)

@@ -1,6 +1,6 @@
 /**
  * Input Handling Test for the AutocompleteModule.
- * Ensures that no suggestions are shown if input is less than 3 characters or invalid.
+ * Ensures that no suggestions are shown if input is less than 3 characters or invalid symbols.
  *
  * @author Josef Matyasek <jm224ae@student.lnu.se>
  * @version 1.0.0
@@ -8,7 +8,7 @@
 
 import { AutocompleteModule } from '../src/js/components/modules/autocomplete.js'
 
-test('should not search for input less than 3 characters or invalid input', () => {
+test('should not search for input less than 3 characters or invalid symbols', () => {
   // Create mock input and suggestions elements for the test.
   const inputElement = document.createElement('input')
   const suggestionsElement = document.createElement('ul')
@@ -21,15 +21,15 @@ test('should not search for input less than 3 characters or invalid input', () =
 
   // Test with input less than 3 characters.
   inputElement.value = 'Ap'
-  autocomplete.handleInput()
+  autocomplete.onUserInput()
 
   // Verify that no suggestions are shown for short input.
   expect(suggestionsElement.children.length).toBe(0)
 
   // Test with invalid input (symbols).
   inputElement.value = '@#%'
-  autocomplete.handleInput()
+  autocomplete.onUserInput()
 
   // Verify that no suggestions are shown for invalid input.
-  expect(suggestionsElement.children.length).toBe(0)
+  expect(suggestionsElement.children.length).toBe(0) // This should now pass
 })
