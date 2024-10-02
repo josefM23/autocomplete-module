@@ -83,7 +83,7 @@ export class AutocompleteModule {
    * @returns {boolean} - True if valid, false otherwise.
    */
   isValidInput (query) {
-    // Check if input has at least 3 characters and contains only letters
+    // Check if input has at least 3 characters and contains only letters.
     return query.length >= 3 && /^[a-zA-Z]+$/.test(query)
   }
 
@@ -104,9 +104,9 @@ export class AutocompleteModule {
    * @returns {Array} - The list of matching suggestions.
    */
   filterSuggestions (query) {
+    // Version that allows searching for any matching from start letter.
     // const suggestions = this.data.filter(item => item.startsWith(query.toLowerCase()))
 
-    // Version that allows searching for any matching part of the string
     const suggestions = this.data.filter(item => item.toLowerCase().includes(query.toLowerCase()))
 
     suggestions.sort((a, b) => a.localeCompare(b))
@@ -161,7 +161,7 @@ export class AutocompleteModule {
     li.textContent = suggestion
 
     if (suggestion.length === 0) {
-      console.warn('Empty suggestion found') // New warning statement
+      console.warn('Empty suggestion found')
     }
 
     li.addEventListener('click', () => this.handleSuggestionClick(suggestion))
@@ -175,7 +175,7 @@ export class AutocompleteModule {
    */
   handleSuggestionClick (suggestion) {
     if (!suggestion) {
-      console.error('Invalid suggestion clicked') // New error log
+      console.error('Invalid suggestion clicked')
       return
     }
 

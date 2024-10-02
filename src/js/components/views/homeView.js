@@ -6,7 +6,6 @@
  * @version 1.0.0
  */
 
-// Define template for the HomeView component.
 const template = document.createElement('template')
 template.innerHTML = `
   <style>
@@ -67,7 +66,6 @@ template.innerHTML = `
   </div>
 `
 
-// Define the custom element 'home-view'.
 customElements.define('home-view',
   /**
    * Called when the element is inserted into the DOM.

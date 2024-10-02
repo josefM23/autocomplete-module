@@ -6,6 +6,5 @@
  * @version 1.0.0
  */
 
-// Import HomeView and SearchView
 import './homeView.js'
 import './searchViews.js'

@@ -6,15 +6,12 @@
  * @version 1.0.0
  */
 
-// Import the components and views.
 import './components/index.js'
 
 // Import AutocompleteModule explicitly.
 import { AutocompleteModule } from './components/modules/autocomplete.js'
 
-// Initialize the HomeView and AutocompleteModule when DOM is ready.
 document.addEventListener('DOMContentLoaded', () => {
-  // Create the HomeView and append it to the DOM.
   const homeView = document.createElement('home-view')
   document.body.appendChild(homeView)
 
@@ -29,5 +26,5 @@ document.addEventListener('DOMContentLoaded', () => {
       const autocomplete = new AutocompleteModule(inputElement, suggestionsElement)
       autocomplete.setData(['Apple', 'Banana', 'Orange', 'Mango', 'Pineapple'])
     }
-  }, 0) // Wait one cycle to ensure the shadow DOM is ready. Just temporary.
+  }, 0) // Wait one cycle to ensure the shadow DOM is ready.
 })

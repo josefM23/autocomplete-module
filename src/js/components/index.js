@@ -6,6 +6,5 @@
  * @version 1.0.0
  */
 
-// Import modules and views
 import './modules/index.js'
 import './views/index.js'

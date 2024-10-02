@@ -6,5 +6,4 @@
  * @version 1.0.0
  */
 
-// Import the autocomplete module
 import './autocomplete.js'
