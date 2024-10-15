@@ -6,10 +6,10 @@
  * @version 1.0.0
  */
 
-import './components/index.js'
+import './components/autocopleteModul/index.js'
 
 // Import AutocompleteModule explicitly.
-import { AutocompleteModule } from './components/modules/autocomplete.js'
+import { AutocompleteModule } from './components/autocopleteModul/modules/autocomplete.js'
 
 document.addEventListener('DOMContentLoaded', () => {
   const homeView = document.createElement('home-view')
