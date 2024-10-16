@@ -1,30 +1,33 @@
 /**
- * Initializes the HomeView and AutocompleteModule components.
- * This script dynamically loads the HomeView and AutocompleteModule into the DOM and sets up the autocomplete functionality.
+ * Initializes the HomeView and MusicMatchController components.
+ * This script dynamically loads the HomeView and MusicMatchController into the DOM
+ * and sets up the autocomplete functionality with data from the Last.fm API.
  *
  * @author Josef Matyasek <jm224ae@student.lnu.se>
  * @version 1.0.0
  */
 
-import './components/autocopleteModul/index.js'
-
-// Import AutocompleteModule explicitly.
-import { AutocompleteModule } from './components/autocopleteModul/modules/autocomplete.js'
+// Import components index.js to load all necessary components (controllers, views, models)
+import './components/index.js'
 
 document.addEventListener('DOMContentLoaded', () => {
   const homeView = document.createElement('home-view')
   document.body.appendChild(homeView)
 
-  // Wait until homeView is connected and shadowRoot is available.
-  setTimeout(() => {
+  setTimeout(async () => {
     const inputElement = homeView.shadowRoot.querySelector('#search')
     const suggestionsElement = homeView.shadowRoot.querySelector('#suggestions')
 
-    // Ensure that the input and suggestions elements are present before creating AutocompleteModule.
     if (inputElement && suggestionsElement) {
-      // Create AutocompleteModule and set up the suggestions data.
-      const autocomplete = new AutocompleteModule(inputElement, suggestionsElement)
-      autocomplete.setData(['Apple', 'Banana', 'Orange', 'Mango', 'Pineapple'])
+      try {
+        // Dynamiskt importera MusicMatchController och dess fabrikationsfunktion bättre prestanda.
+        const module = await import('./components/controllers/musicMatch.js')
+
+        // Använd fabriksfunktionen för att skapa och initiera MusicMatchController
+        module.createMusicMatchController(inputElement, suggestionsElement)
+      } catch (error) {
+        console.error('Failed to load MusicMatchController dynamically:', error)
+      }
     }
-  }, 0) // Wait one cycle to ensure the shadow DOM is ready.
+  }, 0)
 })

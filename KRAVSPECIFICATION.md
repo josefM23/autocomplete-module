@@ -30,18 +30,7 @@ Kravspecifikation för MusicMatch
         När ett förslag väljs ska användaren antingen dirigeras till en ny sida som visar mer detaljerad information om låten/artisten/albumet, eller så visas resultaten direkt på samma sida.
 
 2. Icke-funktionella krav
-2.1 Prestanda
-
-    Snabb svarstid: (kanske)
-        Autocomplete-modulen ska kunna returnera sökförslag inom 500 millisekunder efter att användaren börjar skriva.
-        API-anrop till Last.fm bör vara optimerade för att minimera latens.
-
-2.2 Tillgänglighet
-
-    Responsiv design: (kanske)
-        Användargränssnittet ska vara fullt responsivt och fungera på både datorer och mobila enheter.
-
-2.3 Tillförlitlighet
+2.1 Tillförlitlighet
 
     API-fallhantering:
         Om API-anrop misslyckas (på grund av nätverksproblem eller andra problem), ska ett felmeddelande visas för användaren och inga förslag ska visas.
@@ -88,7 +77,7 @@ Exempel på testfall med Jest:
 5.1 Förbättrad användarupplevelse
 
     Fler filter: (kanske)
-        Planer finns att införa filter för sökningar baserat på genre, album eller årtal.
+        Möjlighet att lägga till fler filter i sökresultaten, såsom genre, årtal eller album.
 
 5.2 Fler databaskällor
 

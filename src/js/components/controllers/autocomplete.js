@@ -83,8 +83,8 @@ export class AutocompleteModule {
    * @returns {boolean} - True if valid, false otherwise.
    */
   isValidInput (query) {
-    // Check if input has at least 3 characters and contains only letters.
-    return query.length >= 3 && /^[a-zA-Z]+$/.test(query)
+    // Check if input has at least 3 characters and contains only letters or numbers.
+    return query.length >= 3 && /^[a-zA-Z0-9]+$/.test(query)
   }
 
   /**
@@ -107,7 +107,11 @@ export class AutocompleteModule {
     // Version that allows searching for any matching from start letter.
     // const suggestions = this.data.filter(item => item.startsWith(query.toLowerCase()))
 
+    // Version that allows searching for any matching.
     const suggestions = this.data.filter(item => item.toLowerCase().includes(query.toLowerCase()))
+
+    // Logga de filtrerade förslagen för att se om något matchar
+    console.log('Filtered suggestions:', suggestions)
 
     suggestions.sort((a, b) => a.localeCompare(b))
     return suggestions
@@ -144,6 +148,7 @@ export class AutocompleteModule {
    * @param {Array} suggestions - The list of matched suggestions to render.
    */
   renderSuggestions (suggestions) {
+    console.log('Rendering suggestions:', suggestions) // Logga vad som renderas
     for (const suggestion of suggestions) {
       const li = this.createSuggestionElement(suggestion)
       this.suggestionsElement.appendChild(li)
@@ -163,6 +168,9 @@ export class AutocompleteModule {
     if (suggestion.length === 0) {
       console.warn('Empty suggestion found')
     }
+
+    // Lägg till en logg här för att se vad som faktiskt läggs till i DOM
+    console.log('Appending suggestion to DOM:', li.textContent)
 
     li.addEventListener('click', () => this.handleSuggestionClick(suggestion))
     return li

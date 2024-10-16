@@ -1,6 +1,9 @@
 /**
  * The HomeView component as a web component.
- * Displays the home page content and renders the autocomplete UI.
+ * Displays the home page content and renders the autocomplete UI for searching music-related content.
+ *
+ * Users can type in the search field to find songs, artists, or albums. The application will display
+ * autocomplete suggestions based on the user's input, using data fetched from the Last.fm API.
  *
  * @author Josef Matyasek <jm224ae@student.lnu.se>
  * @version 1.0.0
@@ -22,6 +25,12 @@ template.innerHTML = `
     h1 {
       font-size: 24px;
       margin-bottom: 20px;
+    }
+
+    .description {
+      font-size: 16px;
+      margin-bottom: 20px;
+      max-width: 400px;
     }
 
     .autocomplete {
@@ -58,7 +67,11 @@ template.innerHTML = `
   </style>
 
   <div class="home">
-    <h1>Welcome to the Autocomplete Module.</h1>
+    <h1>Welcome to the Music Match application.</h1>
+    <p class="description">
+      Start typing in the search box below to find songs, artists, or albums. As you type, relevant suggestions 
+      will appear based on your input. Use this tool to quickly discover music-related information.
+    </p>
     <div class="autocomplete">
       <input type="text" id="search" placeholder="Start typing...">
       <ul id="suggestions"></ul>
