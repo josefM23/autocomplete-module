@@ -28,7 +28,7 @@ export class AutocompleteModule {
     this.suggestionsElement = suggestionsElement
     this.data = []
 
-    // Attach event listener to the input field
+    // Attach event listener to the input field.
     this.inputElement.addEventListener('input', () => this.onUserInput())
   }
 
@@ -37,7 +37,7 @@ export class AutocompleteModule {
    *
    * @param {Array} newData - The data array to use for suggestions.
    */
-  setData (newData) {
+  updateSuggestionsList (newData) {
     if (!Array.isArray(newData)) {
       throw new TypeError('Data must be an array')
     }
@@ -110,7 +110,7 @@ export class AutocompleteModule {
     // Version that allows searching for any matching.
     const suggestions = this.data.filter(item => item.toLowerCase().includes(query.toLowerCase()))
 
-    // Logga de filtrerade förslagen för att se om något matchar
+    // Logga de filtrerade förslagen för att se om något matchar.
     console.log('Filtered suggestions:', suggestions)
 
     suggestions.sort((a, b) => a.localeCompare(b))
@@ -169,7 +169,7 @@ export class AutocompleteModule {
       console.warn('Empty suggestion found')
     }
 
-    // Lägg till en logg här för att se vad som faktiskt läggs till i DOM
+    // Lägg till en logg här för att se vad som faktiskt läggs till i DOM. (temporary)
     console.log('Appending suggestion to DOM:', li.textContent)
 
     li.addEventListener('click', () => this.handleSuggestionClick(suggestion))

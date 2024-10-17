@@ -7,7 +7,8 @@
  * @version 1.0.0
  */
 
-// Import components index.js to load all necessary components (controllers, views, models)
+// Import components index.js to load all necessary components (controllers, views, models).
+// I don't use Dependency injecion here - I like this version av imports (by Mats teaching).
 import './components/index.js'
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Dynamiskt importera MusicMatchController och dess fabrikationsfunktion bättre prestanda.
         const module = await import('./components/controllers/musicMatch.js')
 
-        // Använd fabriksfunktionen för att skapa och initiera MusicMatchController
+        // Använd fabriksfunktionen för att skapa och initiera MusicMatchController.
         module.createMusicMatchController(inputElement, suggestionsElement)
       } catch (error) {
         console.error('Failed to load MusicMatchController dynamically:', error)
