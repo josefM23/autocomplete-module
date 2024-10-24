@@ -7,12 +7,12 @@
 export class LastfmModel {
   /**
    * Creates an instance of the LastfmModel class.
-   * This constructor loads the API key from either import.meta.env (Vite) or process.env (Node/Netlify).
+   * This constructor loads the API key from environment variables using Vite.
    *
    * @param {string} [apiKey] - The API key (loaded from environment variables if not provided).
    * @throws {Error} - Throws an error if the API key is missing.
    */
-  constructor (apiKey = (typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_LASTFM_API_KEY : process.env.VITE_LASTFM_API_KEY)) {
+  constructor (apiKey = import.meta.env.VITE_LASTFM_API_KEY) {
     this.apiKey = apiKey
 
     if (!this.apiKey) {
@@ -53,8 +53,6 @@ export class LastfmModel {
       if (!data.results || !data.results.trackmatches || !data.results.trackmatches.track) {
         throw new Error('Invalid response structure from Last.fm')
       }
-
-      console.log('Trackmatches:', data.results.trackmatches)
 
       return data.results.trackmatches.track.map(track => ({
         artist: track.artist,
