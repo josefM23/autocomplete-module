@@ -6,7 +6,7 @@
  * @version 1.0.0
  */
 
-import { AutocompleteModule } from '../src/js/components/modules/autocomplete.js'
+import { AutocompleteModule } from '../src/js/components/controllers/autocomplete.js'
 
 test('should render suggestions correctly', () => {
   // Create mock input and suggestions elements for the test.

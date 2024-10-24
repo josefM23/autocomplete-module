@@ -9,12 +9,11 @@
 import { LastfmModel } from '../models/lastFmModel.js'
 import { AutocompleteModule } from './autocomplete.js'
 
-console.log('MusicMatchController is being loaded from musicMatch.js')
-
 /**
- * The MusicMatchController class handles input from the search field and integrates with the Last.fm API to provide song and artist suggestions to the user.
+ * The MusicMatchController class is responsible for managing input interactions with Last.fm API
+ * and passing the result to the AutocompleteModule.
  *
- * @class
+ * @class MusicMatchController
  */
 export class MusicMatchController {
   #inputElement
@@ -24,45 +23,43 @@ export class MusicMatchController {
 
   /**
    * Creates an instance of MusicMatchController.
-   * Initializes the necessary elements and modules via Dependency Injection.
    *
    * @param {HTMLElement} inputElement - The input element where the user types search queries.
    * @param {HTMLElement} suggestionsElement - The element where the autocomplete suggestions will be displayed.
    * @param {LastfmModel} lastfmModel - The model for interacting with the Last.fm API.
    * @param {AutocompleteModule} autocompleteModule - The module for handling autocomplete suggestions.
    */
-  constructor (inputElement, suggestionsElement, lastfmModel, autocompleteModule) {
+  constructor(inputElement, suggestionsElement, lastfmModel = new LastfmModel(), autocompleteModule = new AutocompleteModule(inputElement, suggestionsElement)) {
     this.#inputElement = inputElement
     this.#suggestionsElement = suggestionsElement
-    this.#lastfmModel = lastfmModel // Injected as a dependency (:
-    this.#autocompleteModule = autocompleteModule // Injected as a dependency (:
+    this.#lastfmModel = lastfmModel
+    this.#autocompleteModule = autocompleteModule
 
     this.#init()
   }
 
   /**
-   * Initializes the input event listener for user input.
-   * This method attaches an event listener to monitor the search field.
+   * Initializes the input event listener.
+   * This method attaches an event listener to monitor the search field for user input.
    */
   #init () {
-    this.#inputElement.addEventListener('input', () => this.#onUserInput())
+    this.#inputElement.addEventListener('input', () => this.handleUserInput())
   }
 
   /**
-   * Handles the user input event.
-   * If the input is valid, it fetches suggestions from Last.fm and updates the suggestions list.
-   * If an error occurs during the fetch, it handles the error gracefully by clearing suggestions.
+   * Public method to handle user input, fetch suggestions, and update autocomplete.
+   * Validates the query length, fetches suggestions from the Last.fm API, and updates the autocomplete.
    */
-  async #onUserInput () {
-    const query = this.#getQuery()
+  async handleUserInput () {
+    const query = this.#inputElement.value.trim()
 
-    if (this.#isValidQuery(query)) {
+    // Check if the input is valid (3 or more characters)
+    if (query.length >= 3) {
       try {
-        const suggestions = await this.#fetchSuggestions(query)
+        const suggestions = await this.#lastfmModel.searchTracks(query)
         this.#updateAutocompleteSuggestions(suggestions)
       } catch (error) {
         console.error('Error fetching suggestions:', error)
-        // Rensa förslagen om det uppstår ett fel
         this.#clearAutocompleteSuggestions()
       }
     } else {
@@ -71,51 +68,20 @@ export class MusicMatchController {
   }
 
   /**
-   * Retrieves and trims the user's input from the search field.
+   * Updates the autocomplete module with suggestions from Last.fm.
    *
-   * @returns {string} The trimmed input string.
-   */
-  #getQuery () {
-    return this.#inputElement.value.trim()
-  }
-
-  /**
-   * Validates the input query.
-   * Checks if the input length is greater than or equal to 3 characters.
-   *
-   * @param {string} query - The user input to validate.
-   * @returns {boolean} True if the query is valid, false otherwise.
-   */
-  #isValidQuery (query) {
-    return query.length >= 3
-  }
-
-  /**
-   * Fetches suggestions from the Last.fm API.
-   *
-   * @param {string} query - The search query entered by the user.
-   * @returns {Promise<Array>} A promise that resolves to an array of suggestions.
-   * @throws {Error} Throws an error if the fetch fails or the response is invalid.
-   */
-  async #fetchSuggestions (query) {
-    const suggestions = await this.#lastfmModel.searchTracks(query)
-    console.log('Suggestions from Last.fm:', suggestions)
-    return suggestions
-  }
-
-  /**
-   * Updates the AutocompleteModule with the fetched suggestions.
-   *
-   * @param {Array} suggestions - The list of suggestions fetched from the API.
+   * @param {Array} suggestions - The list of suggestions from the API.
    */
   #updateAutocompleteSuggestions (suggestions) {
-    this.#autocompleteModule.updateSuggestionsList(
-      suggestions.map(suggestion => `Artist: ${suggestion.artist} - Song: ${suggestion.name}`)
-    )
+    const formattedSuggestions = suggestions.map(track => `Artist: ${track.artist} - Song: ${track.name}`)
+
+    console.log('Formatted suggestions:', formattedSuggestions)
+
+    this.#autocompleteModule.updateSuggestionsList(formattedSuggestions)
   }
 
   /**
-   * Clears the suggestions from the AutocompleteModule.
+   * Clears the autocomplete suggestions.
    */
   #clearAutocompleteSuggestions () {
     this.#autocompleteModule.clearSuggestions()
@@ -123,17 +89,16 @@ export class MusicMatchController {
 }
 
 /**
- * Factory function to create an instance of MusicMatchController.
- * Injects dependencies for LastfmModel and AutocompleteModule.
+ * Factory function to create and initialize an instance of MusicMatchController.
+ * This ensures that the necessary dependencies are injected when creating the controller.
  *
  * @param {HTMLElement} inputElement - The input element where the user types search queries.
  * @param {HTMLElement} suggestionsElement - The element where the autocomplete suggestions will be displayed.
  * @returns {MusicMatchController} - The created instance of MusicMatchController.
  */
 export function createMusicMatchController (inputElement, suggestionsElement) {
-  // (Dependency injection)
-  const lastfmModel = new LastfmModel()
-  const autocompleteModule = new AutocompleteModule(inputElement, suggestionsElement)
+  const lastfmModel = new LastfmModel() // Inject LastfmModel
+  const autocompleteModule = new AutocompleteModule(inputElement, suggestionsElement) // Inject AutocompleteModule
 
   return new MusicMatchController(inputElement, suggestionsElement, lastfmModel, autocompleteModule)
 }

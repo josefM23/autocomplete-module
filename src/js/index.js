@@ -21,11 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (inputElement && suggestionsElement) {
       try {
-        // Dynamiskt importera MusicMatchController och dess fabrikationsfunktion bättre prestanda.
+        // Dynamisk import av MusicMatchController
         const module = await import('./components/controllers/musicMatch.js')
 
-        // Använd fabriksfunktionen för att skapa och initiera MusicMatchController.
-        module.createMusicMatchController(inputElement, suggestionsElement)
+        // Kolla om `createMusicMatchController` faktiskt finns i modulen.
+        if (typeof module.createMusicMatchController === 'function') {
+          // Använd fabriksfunktionen för att skapa och initiera MusicMatchController
+          module.createMusicMatchController(inputElement, suggestionsElement)
+        } else {
+          throw new Error('createMusicMatchController is not a function')
+        }
       } catch (error) {
         console.error('Failed to load MusicMatchController dynamically:', error)
       }

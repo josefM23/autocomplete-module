@@ -6,18 +6,16 @@
  * @version 1.0.0
  */
 
-import { AutocompleteModule } from '../src/js/components/modules/autocomplete.js'
+import { AutocompleteModule } from '../src/js/components/controllers/autocomplete.js'
 
 test('should not search for input less than 3 characters or invalid symbols', () => {
-  // Create mock input and suggestions elements for the test.
   const inputElement = document.createElement('input')
   const suggestionsElement = document.createElement('ul')
 
-  // Initialize the AutocompleteModule with the mock elements.
   const autocomplete = new AutocompleteModule(inputElement, suggestionsElement)
 
   // Set the data for autocomplete suggestions.
-  autocomplete.setData(['Apple', 'Banana', 'Orange'])
+  autocomplete.updateSuggestionsList(['Apple', 'Banana', 'Orange'])
 
   // Test with input less than 3 characters.
   inputElement.value = 'Ap'
@@ -31,5 +29,5 @@ test('should not search for input less than 3 characters or invalid symbols', ()
   autocomplete.onUserInput()
 
   // Verify that no suggestions are shown for invalid input.
-  expect(suggestionsElement.children.length).toBe(0) // This should now pass
+  expect(suggestionsElement.children.length).toBe(0)
 })

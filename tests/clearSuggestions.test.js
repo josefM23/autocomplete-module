@@ -6,7 +6,7 @@
  * @version 1.0.0
  */
 
-import { AutocompleteModule } from '../src/js/components/modules/autocomplete.js'
+import { AutocompleteModule } from '../src/js/components/controllers/autocomplete.js'
 
 test('should clear suggestions from the DOM', () => {
   const inputElement = document.createElement('input')
@@ -15,9 +15,11 @@ test('should clear suggestions from the DOM', () => {
   const autocomplete = new AutocompleteModule(inputElement, suggestionsElement)
 
   // Populate the suggestions list with mock data.
-  autocomplete.displaySuggestions(['Apple', 'Banana', 'Orange']) // Updated function name
+  autocomplete.updateSuggestionsList(['Apple', 'Banana', 'Orange'])
 
   // Clear the suggestions list.
   autocomplete.clearSuggestions()
-  expect(suggestionsElement.children.length).toBe(0) // Now this should pass
+
+  // Verify that the suggestions are cleared.
+  expect(suggestionsElement.children.length).toBe(0)
 })
