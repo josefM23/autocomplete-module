@@ -11,7 +11,7 @@ export class LastfmModel {
    *
    * @param {string} apiKey - API-nyckeln (från miljövariabler).
    */
-  constructor (apiKey = import.meta.env.VITE_LASTFM_API_KEY || 'default-api-key') {
+  constructor (apiKey = (import.meta.env ? import.meta.env.VITE_LASTFM_API_KEY : process.env.VITE_LASTFM_API_KEY)) {
     this.apiKey = apiKey
     this.baseUrl = 'https://ws.audioscrobbler.com/2.0/'
   }
