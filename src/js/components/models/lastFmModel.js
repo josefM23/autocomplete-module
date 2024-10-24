@@ -7,12 +7,12 @@
 export class LastfmModel {
   /**
    * Creates an instance of the LastfmModel class.
-   * This constructor loads the API key from environment variables using Vite.
+   * This constructor loads the API key from environment variables using Vite or process.env.
    *
    * @param {string} [apiKey] - The API key (loaded from environment variables if not provided).
    * @throws {Error} - Throws an error if the API key is missing.
    */
-  constructor (apiKey = import.meta.env.VITE_LASTFM_API_KEY) {
+  constructor (apiKey = import.meta.env.VITE_LASTFM_API_KEY || process.env.VITE_LASTFM_API_KEY) {
     this.apiKey = apiKey
 
     if (!this.apiKey) {
