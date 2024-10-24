@@ -8,5 +8,9 @@ export default defineConfig({
   server: {
     port: 3000,
     open: false
+  },
+  define: {
+    // Gör så att process.env hanteras korrekt av Vite under byggprocessen
+    'process.env': process.env
   }
 })
