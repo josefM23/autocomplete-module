@@ -10,6 +10,6 @@ export default defineConfig({
     open: false
   },
   define: {
-    'process.env.VITE_LASTFM_API_KEY': JSON.stringify(process.env.VITE_LASTFM_API_KEY)
+    'process.env': process.env
   }
 })

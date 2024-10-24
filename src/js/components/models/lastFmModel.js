@@ -44,8 +44,6 @@ export class LastfmModel {
 
     try {
       const response = await fetch(url)
-      console.log('API response:', response)
-
       // Kasta ett fel om nätverkssvaret inte är OK
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`)
@@ -53,7 +51,6 @@ export class LastfmModel {
 
       // Hämta och logga svaret
       const data = await response.json()
-      console.log('Fetched data:', data)
 
       // Kontrollera om svaret har korrekt struktur
       if (!data.results || !data.results.trackmatches || !data.results.trackmatches.track) {
