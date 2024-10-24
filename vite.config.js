@@ -10,7 +10,6 @@ export default defineConfig({
     open: false
   },
   define: {
-    // Gör så att process.env hanteras korrekt av Vite under byggprocessen
     'process.env': process.env
   }
 })

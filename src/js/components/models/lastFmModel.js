@@ -33,23 +33,29 @@ export class LastfmModel {
    * @throws {Error} - Throws an error if the query is invalid or if the API request fails.
    */
   async searchTracks(query) {
+    // Check if the query is valid (at least 3 characters)
     if (!query || query.length < 3) {
       throw new Error('Query must be at least 3 characters long')
     }
 
+    // Construct the API URL with the query and API key
     const url = `${this.baseUrl}?method=track.search&track=${query}&api_key=${this.apiKey}&format=json`
 
     try {
+      // Make a request to the Last.fm API
       const response = await fetch(url)
       console.log('API response:', response) // Logging for debugging purposes
 
+      // Check if the response was successful
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`)
       }
 
+      // Parse the response JSON
       const data = await response.json()
       console.log('Fetched data:', data) // Logging the fetched data for debugging
 
+      // Validate the API response structure
       if (!data.results || !data.results.trackmatches || !data.results.trackmatches.track) {
         throw new Error('Invalid response structure from Last.fm')
       }
@@ -62,6 +68,7 @@ export class LastfmModel {
         name: track.name
       }))
     } catch (error) {
+      // Log and re-throw the error for higher-level handling
       console.error('Error fetching data from Last.fm:', error)
       throw new Error(`Failed to fetch tracks from Last.fm: ${error.message}`)
     }
