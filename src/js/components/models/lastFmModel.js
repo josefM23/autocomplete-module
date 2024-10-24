@@ -7,12 +7,12 @@
 export class LastfmModel {
   /**
    * Creates an instance of the LastfmModel class.
-   * This constructor loads the API key from environment variables using Vite.
+   * This constructor loads the API key from either import.meta.env (Vite) or process.env (Node/Netlify).
    *
    * @param {string} [apiKey] - The API key (loaded from environment variables if not provided).
    * @throws {Error} - Throws an error if the API key is missing.
    */
-  constructor(apiKey = (typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_LASTFM_API_KEY : process.env.VITE_LASTFM_API_KEY)) {
+  constructor (apiKey = (typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_LASTFM_API_KEY : process.env.VITE_LASTFM_API_KEY)) {
     this.apiKey = apiKey
 
     if (!this.apiKey) {
@@ -32,43 +32,35 @@ export class LastfmModel {
    * @returns {Promise<Array>} - A promise that resolves to an array of track objects.
    * @throws {Error} - Throws an error if the query is invalid or if the API request fails.
    */
-  async searchTracks(query) {
-    // Check if the query is valid (at least 3 characters)
+  async searchTracks (query) {
     if (!query || query.length < 3) {
       throw new Error('Query must be at least 3 characters long')
     }
 
-    // Construct the API URL with the query and API key
     const url = `${this.baseUrl}?method=track.search&track=${query}&api_key=${this.apiKey}&format=json`
 
     try {
-      // Make a request to the Last.fm API
       const response = await fetch(url)
-      console.log('API response:', response) // Logging for debugging purposes
+      console.log('API response:', response)
 
-      // Check if the response was successful
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`)
       }
 
-      // Parse the response JSON
       const data = await response.json()
-      console.log('Fetched data:', data) // Logging the fetched data for debugging
+      console.log('Fetched data:', data)
 
-      // Validate the API response structure
       if (!data.results || !data.results.trackmatches || !data.results.trackmatches.track) {
         throw new Error('Invalid response structure from Last.fm')
       }
 
-      console.log('Trackmatches:', data.results.trackmatches) // Log track matches for further inspection
+      console.log('Trackmatches:', data.results.trackmatches)
 
-      // Return the array of track objects with artist and song name
       return data.results.trackmatches.track.map(track => ({
         artist: track.artist,
         name: track.name
       }))
     } catch (error) {
-      // Log and re-throw the error for higher-level handling
       console.error('Error fetching data from Last.fm:', error)
       throw new Error(`Failed to fetch tracks from Last.fm: ${error.message}`)
     }
