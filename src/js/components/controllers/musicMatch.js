@@ -29,7 +29,7 @@ export class MusicMatchController {
    * @param {LastfmModel} lastfmModel - The model for interacting with the Last.fm API.
    * @param {AutocompleteModule} autocompleteModule - The module for handling autocomplete suggestions.
    */
-  constructor(inputElement, suggestionsElement, lastfmModel = new LastfmModel(), autocompleteModule = new AutocompleteModule(inputElement, suggestionsElement)) {
+  constructor (inputElement, suggestionsElement, lastfmModel = new LastfmModel(), autocompleteModule = new AutocompleteModule(inputElement, suggestionsElement)) {
     this.#inputElement = inputElement
     this.#suggestionsElement = suggestionsElement
     this.#lastfmModel = lastfmModel

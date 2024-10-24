@@ -12,7 +12,7 @@ export class LastfmModel {
    * @param {string} [apiKey] - The API key (loaded from environment variables if not provided).
    * @throws {Error} - Throws an error if the API key is missing.
    */
-  constructor (apiKey = import.meta.env.VITE_LASTFM_API_KEY || process.env.VITE_LASTFM_API_KEY) {
+  constructor (apiKey = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_LASTFM_API_KEY) || process.env.VITE_LASTFM_API_KEY) {
     this.apiKey = apiKey
 
     if (!this.apiKey) {
