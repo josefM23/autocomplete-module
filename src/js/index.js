@@ -37,3 +37,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 0)
 })
+console.log('Env variables:', import.meta.env)

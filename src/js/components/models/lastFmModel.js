@@ -15,6 +15,7 @@ export class LastfmModel {
   constructor (apiKey = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_LASTFM_API_KEY) || process.env.VITE_LASTFM_API_KEY) {
     this.apiKey = apiKey
 
+    // Kontrollera om API-nyckeln är definierad, annars kasta ett fel
     if (!this.apiKey) {
       throw new Error('API key for Last.fm is not defined. Please check your environment variables.')
     }
@@ -33,32 +34,39 @@ export class LastfmModel {
    * @throws {Error} - Throws an error if the query is invalid or if the API request fails.
    */
   async searchTracks (query) {
+    // Kontrollera om sökfrågan är giltig (minst 3 tecken)
     if (!query || query.length < 3) {
       throw new Error('Query must be at least 3 characters long')
     }
 
+    // Bygg API-anropets URL med sökfrågan och API-nyckeln
     const url = `${this.baseUrl}?method=track.search&track=${query}&api_key=${this.apiKey}&format=json`
 
     try {
       const response = await fetch(url)
       console.log('API response:', response)
 
+      // Kasta ett fel om nätverkssvaret inte är OK
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`)
       }
 
+      // Hämta och logga svaret
       const data = await response.json()
       console.log('Fetched data:', data)
 
+      // Kontrollera om svaret har korrekt struktur
       if (!data.results || !data.results.trackmatches || !data.results.trackmatches.track) {
         throw new Error('Invalid response structure from Last.fm')
       }
 
+      // Returnera en lista över spår med artist och låtnamn
       return data.results.trackmatches.track.map(track => ({
         artist: track.artist,
         name: track.name
       }))
     } catch (error) {
+      // Logga och kasta ett fel om API-anropet misslyckas
       console.error('Error fetching data from Last.fm:', error)
       throw new Error(`Failed to fetch tracks from Last.fm: ${error.message}`)
     }
