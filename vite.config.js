@@ -3,13 +3,10 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   root: 'src',
   build: {
-    outDir: 'dist'
+    outDir: '../dist'
   },
   server: {
     port: 3000,
     open: false
-  },
-  define: {
-    'process.env': process.env
   }
 })
