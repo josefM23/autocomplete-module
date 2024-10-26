@@ -3,4 +3,4 @@
   publish = "dist"
 
 [context.production.environment]
-  VITE_LASTFM_API_KEY = "5e53511c35203f7d4025c4b6dc1de4cc"
+  VITE_LASTFM_API_KEY = "din-api-nyckel"
