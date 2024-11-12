@@ -2,8 +2,9 @@
  * Controller for handling interactions between the search input and the Last.fm API.
  * It listens for user input, fetches data from Last.fm, and passes it to AutocompleteModule to display suggestions.
  *
- * @author Josef Matyasek
  * @version 1.0.0
+ * @class MusicMatchController
+ * @author Josef Matyasek
  */
 
 import { LastfmModel } from '../models/lastFmModel.js'
@@ -12,8 +13,6 @@ import { AutocompleteModule } from './autocomplete.js'
 /**
  * Manages user input interactions with the Last.fm API
  * and sends the results to the AutocompleteModule.
- *
- * @class MusicMatchController
  */
 export class MusicMatchController {
   #inputElement
@@ -46,6 +45,16 @@ export class MusicMatchController {
    */
   #initialize () {
     this.#inputElement.addEventListener('input', () => this.#handleUserInput())
+  }
+
+  /**
+   * Triggers the user input handling process (for testing purposes).
+   * This function is used to expose the private method for test purposes.
+   *
+   * @returns {Promise<void>} - Resolves when user input handling is complete.
+   */
+  async triggerUserInput () {
+    await this.#handleUserInput()
   }
 
   /**

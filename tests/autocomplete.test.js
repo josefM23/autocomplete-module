@@ -9,8 +9,7 @@
 import { AutocompleteModule } from '../src/js/components/controllers/autocomplete.js'
 
 /**
- * Test the `updateSuggestionsList` method to ensure that duplicate entries are filtered and
- * only unique, sorted, and lowercase data is stored in the AutocompleteModule.
+ * Test the `updateSuggestionsList` method to ensure that duplicate entries are filtered and only unique, sorted, and lowercase data is stored in the AutocompleteModule.
  */
 test('should set unique, lowercase, sorted data in autocomplete', () => {
   // Create mock HTML elements for input and suggestions.

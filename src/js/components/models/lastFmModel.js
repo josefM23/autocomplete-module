@@ -5,14 +5,14 @@
  * @class
  */
 export class LastfmModel {
-  #baseUrl = 'https://ws.audioscrobbler.com/2.0/' // Base URL for Last.fm API
+  #baseUrl = 'https://ws.audioscrobbler.com/2.0/'
   #apiKey
 
   /**
    * Creates an instance of the LastfmModel class.
    * Loads the API key from environment variables.
    *
-   * @param {string} [apiKey] - The API key for Last.fm (defaults to the environment variable VITE_LASTFM_API_KEY).
+   * @param {string} [apiKey] - The API key for Last.fm
    * @throws {Error} - Throws an error if the API key is missing.
    */
   constructor (apiKey = import.meta.env.VITE_LASTFM_API_KEY) {
@@ -52,7 +52,7 @@ export class LastfmModel {
    * @throws {Error} - Throws an error if the query is invalid.
    */
   #validateQuery (query) {
-    if (!query || query.length < 3) {
+    if (!query || query.length < 2) {
       throw new Error('Query must be at least 3 characters long.')
     }
   }

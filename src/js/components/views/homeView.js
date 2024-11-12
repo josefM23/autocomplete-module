@@ -2,8 +2,7 @@
  * The HomeView component as a web component.
  * Displays the home page content and renders the autocomplete UI for searching music-related content.
  *
- * Users can type in the search field to find songs, artists, or albums. The application will display
- * autocomplete suggestions based on the user's input, using data fetched from the Last.fm API.
+ * Users can type in the search field to find songs, artists, or albums. The application will display autocomplete suggestions based on the user's input, using data fetched from the Last.fm API.
  *
  * @author Josef Matyasek <jm224ae@student.lnu.se>
  * @version 1.0.0
@@ -11,60 +10,61 @@
 
 const template = document.createElement('template')
 template.innerHTML = `
-  <style>
-    .home {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-    }
+ <style>
+  .home {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+  }
 
-    h1 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 
-    .description {
-      font-size: 16px;
-      margin-bottom: 20px;
-      max-width: 400px;
-    }
+  .description {
+    font-size: 16px;
+    margin-bottom: 20px;
+    max-width: 400px;
+  }
 
-    .autocomplete {
-      width: 300px;
-      margin-top: 20px;
-    }
+  .autocomplete {
+    width: 300px;
+    margin-top: 20px;
+  }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
+  input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
 
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      background-color: white;
-      border: 1px solid #ccc;
-      max-height: 150px;
-      overflow-y: auto;
-    }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+  }
 
-    li {
-      padding: 10px;
-      cursor: pointer;
-      color: black;
-    }
+  li {
+    padding: 10px;
+    cursor: pointer;
+    color: black;
+  }
 
-    li:hover {
-      background-color: #f0f0f0;
-    }
-  </style>
+  li:hover {
+    background-color: #f0f0f0;
+  }
+</style>
+
 
   <div class="home">
     <h1>Welcome to the Music Match application.</h1>

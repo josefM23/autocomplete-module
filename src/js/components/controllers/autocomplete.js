@@ -7,10 +7,8 @@
  */
 
 /**
- * Represents the core logic of the AutocompleteModule.
- * Handles user input, filtering suggestions, and displaying the matching results.
- *
- * @class AutocompleteModule
+ * The Autocomplete component logic.
+ * Handles input, filtering, and suggestions.
  */
 export class AutocompleteModule {
   /**
@@ -41,6 +39,13 @@ export class AutocompleteModule {
       throw new TypeError('Data must be an array')
     }
     this.data = this.getUniqueLowercaseData(newData)
+    console.log('Updated data for suggestions:', this.data) // Kontrollera att data uppdateras korrekt
+
+    // Display suggestions immediately if input is already valid.
+    const currentQuery = this.inputElement.value.trim()
+    if (this.isValidInput(currentQuery)) {
+      this.searchSuggestions(currentQuery)
+    }
   }
 
   /**
@@ -70,6 +75,7 @@ export class AutocompleteModule {
    */
   isValidInput (query) {
     return query.length >= 3 && /^[a-zA-Z0-9]+$/.test(query)
+    // Checks if the `query` contains only alphanumeric characters (a-z, A-Z, 0-9) with no spaces or special characters.
   }
 
   /**
@@ -101,7 +107,12 @@ export class AutocompleteModule {
    */
   displaySuggestions (suggestions) {
     this.clearSuggestions()
-    suggestions.length ? this.renderSuggestions(suggestions) : this.displayNoMatches()
+    if (suggestions.length) {
+      console.log('Displaying suggestions:', suggestions) // Bekräfta att förslag renderas
+      this.renderSuggestions(suggestions)
+    } else {
+      this.displayNoMatches()
+    }
   }
 
   /**
