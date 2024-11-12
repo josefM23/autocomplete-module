@@ -1,68 +1,112 @@
-# Automated Tests Summary
+Automated Tests Summary
 
-In this project, I implemented automated tests using Jest to ensure the functionality of the **AutocompleteModule** and the overall behavior of the application. Below is a summary of the tests that were created:
+This document provides an overview of the automated tests implemented for various components in the application, including MusicMatchController and AutocompleteModule. Each test verifies the functionality, correctness, and expected behavior of these components.
+1. Test: MusicMatchController Suggestion Fetching
 
-## 1. Test: AutocompleteModule Data Uniqueness
-**Purpose:**  
-To ensure that the `setData()` function correctly processes the input data and removes duplicate values.
+Purpose:
+To verify that MusicMatchController fetches and displays music suggestions based on valid user input.
 
-**What is Tested:**  
-- Verifies that the input data provided to `setData()` is cleaned and any duplicate entries are filtered out.
-- Ensures only unique values are stored in the `data` array in lowercase.
+What is Tested:
 
-**Expected Result:**  
-- The internal `data` array should contain only unique values after calling `setData()`.  
-- Example: When `['Apple', 'Banana', 'Apple']` is provided, the result should be `['apple', 'banana']`.
+    Ensures that user input triggers a fetch request to the Last.fm API.
+    Validates that suggestions are rendered correctly in the DOM with expected artist and track names.
 
-**Test Result:**  
-- ✅ Passed
----
+Expected Result:
 
-## 2. Test: Input Handling and Validation
-**Purpose:**  
-To check that user input is properly handled and the search is triggered only for valid input.
+    When valid input is provided, two suggestions are displayed in the DOM with the correct artist and song details.
 
-**What is Tested:**  
-- Input should trigger the filtering of suggestions when it is greater than or equal to 3 characters.
-- Input should be valid, containing only letters, and the search functionality should filter and display matching suggestions based on this valid input.
+Test Result:
 
-**Expected Result:**  
-- When typing at least 3 valid characters, suggestions that match the input are displayed.
-- If no valid matches are found, a message saying "No matches found" should appear.
+    ✅ Passed
 
-**Test Result:**  
-- ✅ Passed
----
+2. Test: MusicMatchController with LastfmModel Integration
 
-## 3. Test: Suggestions Rendering
-**Purpose:**  
-To verify that the suggestions list is properly rendered with matching suggestions.
+Purpose:
+To test MusicMatchController's integration with a mocked LastfmModel, confirming that it fetches and renders suggestions as expected.
 
-**What is Tested:**  
-- The suggestions list (`ul`) should display when valid matches are found during the search.
-- When a user clicks on a suggestion, it should populate the input field.
+What is Tested:
 
-**Expected Result:**  
-- The `li` elements should be created for each matching suggestion.
-- Clicking on a suggestion should populate the input field with that suggestion.
+    Ensures MusicMatchController uses LastfmModel to retrieve and display suggestions based on user input.
+    Validates the rendering of suggestions in the DOM based on Last.fm API responses.
 
-**Test Result:**  
-- ✅ Passed
----
+Expected Result:
 
-## 4. Test: Clear Suggestions Functionality
-**Purpose:**  
-To verify that the suggestions list is cleared properly when the input is empty or invalid.
+    For a valid search input, the DOM should show two correctly formatted suggestions.
 
-**What is Tested:**  
-- The suggestions list is cleared when input conditions are not met (e.g., fewer than 3 characters or invalid characters).
+Test Result:
 
-**Expected Result:**  
-- The `clearSuggestions()` function should empty the suggestions list (`ul#suggestions`).
+    ✅ Passed
 
-**Test Result:**  
-- ✅ Passed
----
+3. Test: AutocompleteModule Unique and Lowercase Data
 
-## Summary
-These automated tests ensure that the key functionalities of the **AutocompleteModule** — including data handling, input handling, suggestions rendering, and UI updates — work as expected. Each test verifies specific aspects of the module’s behavior, ensuring both correctness and reliability. **All tests have successfully passed.**
+Purpose:
+To confirm that updateSuggestionsList() in AutocompleteModule correctly processes and filters data to include only unique, lowercase entries.
+
+What is Tested:
+
+    Ensures that duplicate entries are removed and that all entries are stored as lowercase in the data array.
+
+Expected Result:
+
+    When provided with ['Apple', 'Banana', 'apple'], the data array should contain only ['apple', 'banana'].
+
+Test Result:
+
+    ✅ Passed
+
+4. Test: AutocompleteModule Input Handling and Validation
+
+Purpose:
+To check that user input is validated and that the search is triggered only when the input is at least 3 characters long and valid.
+
+What is Tested:
+
+    Ensures that input with at least 3 valid characters triggers the search.
+    Confirms that invalid or short input results in no suggestions being displayed.
+
+Expected Result:
+
+    Suggestions are displayed when valid input (3+ characters) is provided, and "No matches found" is shown for invalid input.
+
+Test Result:
+
+    ✅ Passed
+
+5. Test: AutocompleteModule Suggestion Rendering
+
+Purpose:
+To ensure that the AutocompleteModule renders suggestions accurately based on provided data.
+
+What is Tested:
+
+    Verifies that the suggestions list displays correctly in the DOM.
+    Ensures that clicking a suggestion populates the input field with the selected suggestion.
+
+Expected Result:
+
+    The suggestions list (ul) shows a li element for each suggestion, and the input field populates when a suggestion is clicked.
+
+Test Result:
+
+    ✅ Passed
+
+6. Test: AutocompleteModule Clear Suggestions
+
+Purpose:
+To verify that the clearSuggestions() method clears all suggestions from the DOM as expected.
+
+What is Tested:
+
+    Ensures that suggestions are removed when the input conditions are not met (e.g., invalid or empty input).
+
+Expected Result:
+
+    Calling clearSuggestions() results in an empty suggestions list in the DOM.
+
+Test Result:
+
+    ✅ Passed
+
+Summary
+
+These automated tests ensure that the application components, including MusicMatchController and AutocompleteModule, behave as expected. Each test confirms a specific functionality within the application, supporting robust and reliable behavior. All tests have successfully passed.

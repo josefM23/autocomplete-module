@@ -9,24 +9,14 @@
 **Expected Result:**
 - The homepage should load without any errors.
 - The following elements should be present:
-  - A header with the title "Welcome to the Home Page".
+  - A header with the title "Welcome to the Music Match application".
   - An input field for searching with the placeholder text "Start typing...".
   - An empty list element for suggestions.
 
 **Actual Result:**
-- The header "Welcome to the Home Page" was displayed correctly, above the input field as expected.
-- The layout was improved using a `<slot>` in the `home-view` to correctly place the `autocomplete` component below the header.
-- The elements are not centered vertically, but the header is correctly placed above the search field.
-- A `404` error for the favicon was previously detected, but this was fixed.
-- The message "Enjoy the app" was displayed (don't want it).
+- The header "Welcome to the Music Match application" was displayed correctly, above the input field as expected. (little bit to slow)
 
-**Changes Made:**
-- Added a `<slot>` in the `home-view` component to manage the placement of the autocomplete component relative to the header.
-- Ensured the `autocomplete` component is placed below the header, fixing the layout issue.
-- Fixed the favicon issue by adding a base64 data URL for a transparent placeholder favicon, avoiding the 404 error.
-- The message "Enjoy the app" was deleted.
-
-**Status:** Pass (layout, favicon issues resolved message deleted)
+**Status:** Pass 
 
 ---
 
@@ -35,14 +25,13 @@
 **Steps:**
 1. Open the application.
 2. Click on the input field.
-3. Enter the text "App".
+3. Enter the text "Ali".
 
 **Expected Result:**
-Suggestions matching the input "App" (e.g., "Apple", "Pineapple") should be displayed.
+Suggestions matching the input "Ali" (e.g., "alive", "alice") should be displayed ass artist: or song: 
 
 **Actual Result:** 
-Suggestions "Apple" and 
-"Pineapple" were displayed.
+Suggestions "artist: 100 gecs - song: dumbest girl alive" and meny oithers was displyed.
 
 **Status:** Pass
 
@@ -70,14 +59,14 @@ No suggestions were displayed.
 **Steps:**
 1. Open the application.
 2. Click on the input field.
-3. Enter the text "App".
-4. Click on the suggestion "Apple".
+3. Enter the text "Ali".
+4. Click on the suggestion: "artist: 100 gecs - song: dumbest girl alive"
 
 **Expected Result:**
-The text "Apple" should be inserted into the input field, and suggestions should disappear.
+The text "artist: 100 gecs - song: dumbest girl alive" should be inserted into the input field, and suggestions should disappear.
 
 **Actual Result:** 
-The text "Apple" was inserted, and suggestions disappeared.
+The text "artist: 100 gecs - song: dumbest girl alive" was inserted, and suggestions disappeared.
 
 **Status:** Pass
 
@@ -88,7 +77,7 @@ The text "Apple" was inserted, and suggestions disappeared.
 **Steps:**
 1. Open the application.
 2. Click on the input field.
-3. Enter the text "XYZ".
+3. Enter the text "asfajpe". (it was har to find no sugestion text.)
 
 **Expected Result:**
 The message "No matches found" should be displayed.
