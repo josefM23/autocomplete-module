@@ -7,4 +7,3 @@
  */
 
 import './homeView.js'
-import './searchViews.js'

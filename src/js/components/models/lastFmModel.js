@@ -78,11 +78,16 @@ export class LastfmModel {
    * @throws {Error} - Throws an error if the response is not successful.
    */
   async #fetchData (url) {
-    const response = await fetch(url)
-    if (!response.ok) {
-      throw new Error(`Network response was not ok: ${response.statusText}`)
+    try {
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error(`API request failed with status: ${response.status}`)
+      }
+      const data = await response.json()
+      return data
+    } catch (error) {
+      throw new Error(`Failed to fetch data from Last.fm: ${error.message}`)
     }
-    return response.json()
   }
 
   /**

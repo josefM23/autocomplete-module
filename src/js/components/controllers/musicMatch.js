@@ -69,10 +69,13 @@ export class MusicMatchController {
     if (this.#isValidQuery(query)) {
       try {
         const suggestions = await this.#lastfmModel.searchTracks(query)
+        if (suggestions.length === 0) {
+          throw new Error('No results found from Last.fm')
+        }
         this.#updateAutocompleteSuggestions(suggestions)
       } catch (error) {
-        console.error('Error fetching suggestions:', error)
         this.#clearAutocompleteSuggestions()
+        throw new Error(`Failed to fetch suggestions: ${error.message}`)
       }
     } else {
       this.#clearAutocompleteSuggestions()

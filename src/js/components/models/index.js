@@ -1,2 +1,4 @@
-// Importera Last.fm-modellen
+/**
+ * Best parxis just for imports.
+ */
 import './lastFmModel.js'

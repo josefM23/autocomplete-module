@@ -1,7 +1,7 @@
 /**
  * Initializes the HomeView and MusicMatchController components.
- * This script dynamically loads the HomeView and MusicMatchController into the DOM
- * and sets up the autocomplete functionality with data from the Last.fm API.
+ * This script dynamically loads the HomeView and MusicMatchController into the DOM.
+ * Sets up the autocomplete functionality with data from the Last.fm API.
  *
  * @version 1.0.0
  * @author Josef Matyasek <jm224ae@student.lnu.se>

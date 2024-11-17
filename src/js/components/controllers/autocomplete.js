@@ -39,7 +39,6 @@ export class AutocompleteModule {
       throw new TypeError('Data must be an array')
     }
     this.data = this.getUniqueLowercaseData(newData)
-    console.log('Updated data for suggestions:', this.data) // Kontrollera att data uppdateras korrekt
 
     // Display suggestions immediately if input is already valid.
     const currentQuery = this.inputElement.value.trim()
@@ -108,7 +107,6 @@ export class AutocompleteModule {
   displaySuggestions (suggestions) {
     this.clearSuggestions()
     if (suggestions.length) {
-      console.log('Displaying suggestions:', suggestions) // Bekräfta att förslag renderas
       this.renderSuggestions(suggestions)
     } else {
       this.displayNoMatches()
